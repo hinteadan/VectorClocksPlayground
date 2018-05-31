@@ -11,22 +11,22 @@
 
             VectorClockSyncResult<string> syncResult;
 
-            alice.Says("Wednesday");
-            syncResult = cathy.Acknowledges(alice);
-            syncResult = ben.Acknowledges(alice);
-            syncResult = dave.Acknowledges(alice);
+            alice.Say("Wednesday");
+            syncResult = cathy.Acknowledge(alice);
+            syncResult = ben.Acknowledge(alice);
+            syncResult = dave.Acknowledge(alice);
 
-            ben.Says("Tuesday");
-            syncResult = alice.Acknowledges(ben);
-            syncResult = dave.Acknowledges(ben);
+            ben.Say("Tuesday");
+            syncResult = alice.Acknowledge(ben);
+            syncResult = dave.Acknowledge(ben);
 
-            dave.Says("Tuesday");
-            alice.Acknowledges(dave);
-            ben.Acknowledges(dave);
+            dave.Say("Tuesday");
+            alice.Acknowledge(dave);
+            ben.Acknowledge(dave);
 
-            cathy.Says("Thursday");
+            cathy.Say("Thursday");
 
-            syncResult = dave.Acknowledges(cathy);
+            syncResult = dave.Acknowledge(cathy);
 
         }
     }

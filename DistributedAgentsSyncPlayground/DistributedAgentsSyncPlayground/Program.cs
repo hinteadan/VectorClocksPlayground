@@ -7,23 +7,26 @@
             var alice = new VectorClockNode<string>("Alice");
             var ben = new VectorClockNode<string>("Ben");
             var dave = new VectorClockNode<string>("Dave");
+            var cathy = new VectorClockNode<string>("Cathy");
 
             VectorClockSyncResult<string> syncResult;
 
-            alice.SetPayload("Wednesday");
-            syncResult = ben.SyncWith(alice);
-            syncResult = dave.SyncWith(alice);
+            alice.Says("Wednesday");
+            syncResult = cathy.Acknowledges(alice);
+            syncResult = ben.Acknowledges(alice);
+            syncResult = dave.Acknowledges(alice);
 
-            ben.SetPayload("Tuesday");
-            syncResult = alice.SyncWith(ben);
-            syncResult = dave.SyncWith(ben);
+            ben.Says("Tuesday");
+            syncResult = alice.Acknowledges(ben);
+            syncResult = dave.Acknowledges(ben);
 
-            dave.SetPayload("Tuesday");
-            alice.SyncWith(dave);
-            ben.SyncWith(dave);
+            dave.Says("Tuesday");
+            alice.Acknowledges(dave);
+            ben.Acknowledges(dave);
 
+            cathy.Says("Thursday");
 
-            syncResult = ben.SyncWith(dave);
+            syncResult = dave.Acknowledges(cathy);
 
         }
     }

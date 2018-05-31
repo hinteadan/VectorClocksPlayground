@@ -33,7 +33,7 @@ namespace DistributedAgentsSyncPlayground
         public long Version => selfVersion.Version;
         public long VersionOf(string nodeId) => !revision.ContainsKey(nodeId) ? 0 : revision[nodeId].Version;
         public VectorClockNodeVersion[] Revision => revision.Values.ToArray();
-        public VectorClockSyncResult<T> SyncWith(VectorClockNode<T> vectorClock)
+        public VectorClockSyncResult<T> Acknowledges(VectorClockNode<T> vectorClock)
         {
             vectorClock = NormalizeVectors(vectorClock);
 
@@ -56,7 +56,7 @@ namespace DistributedAgentsSyncPlayground
 
             return VectorClockSyncResult<T>.Conflictual(this, new VectorClockConflict<T>(this, vectorClock));
         }
-        public VectorClockNode<T> SetPayload(T payload)
+        public VectorClockNode<T> Says(T payload)
         {
             Payload = payload;
             TrackEvent();

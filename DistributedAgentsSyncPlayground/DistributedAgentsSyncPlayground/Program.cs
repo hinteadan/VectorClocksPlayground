@@ -1,9 +1,13 @@
-﻿namespace DistributedAgentsSyncPlayground
+﻿using DistributedAgentsSyncPlayground.ConflictMediators;
+
+namespace DistributedAgentsSyncPlayground
 {
     class Program
     {
         static void Main(string[] args)
         {
+            ImAVectorClockConflictResolver<string> whateverConflictMediator = new GenericConflictMediator<string>((a, b) => b);
+
             var alice = new VectorClockNode<string>("Alice");
             var ben = new VectorClockNode<string>("Ben");
             var dave = new VectorClockNode<string>("Dave");
@@ -24,9 +28,17 @@
             alice.Acknowledge(dave);
             ben.Acknowledge(dave);
 
+
+            //Conflict starts here
+
             cathy.Say("Thursday");
 
             syncResult = dave.Acknowledge(cathy);
+
+            var resolution = whateverConflictMediator.ResolveConflict(syncResult);
+
+            syncResult = dave.Acknowledge(resolution.Solution);
+
 
         }
     }

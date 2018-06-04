@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConflictMediators\GenericConflictMediator.cs" />
+    <Compile Include="ImAVectorClockConflictResolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VectorClockConflict.cs" />

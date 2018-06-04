@@ -47,13 +47,13 @@ namespace DistributedAgentsSyncPlayground
 
             if (winner != null)
             {
-                if(winner.NodeID != this.NodeID)
+                Payload = winner.Payload;
+                
+                foreach(var version in Revision)
                 {
-                    foreach(var version in Revision)
-                    {
-                        while (version.Version < winner.VersionOf(version.NodeID)) version.Increment();
-                    }
+                    while (version.Version < winner.VersionOf(version.NodeID)) version.Increment();
                 }
+
                 return VectorClockSyncResult<T>.Successfull(this, winner);
             }
 

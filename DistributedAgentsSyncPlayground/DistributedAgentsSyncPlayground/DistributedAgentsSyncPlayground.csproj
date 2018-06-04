@@ -46,6 +46,7 @@
     <Compile Include="ImAVectorClockConflictResolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyncServer\VectorClockSyncServer.cs" />
     <Compile Include="VectorClockConflict.cs" />
     <Compile Include="VectorClockNode.cs" />
     <Compile Include="VectorClockNodeVersion.cs" />

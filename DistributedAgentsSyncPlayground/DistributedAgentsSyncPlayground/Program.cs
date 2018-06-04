@@ -6,12 +6,18 @@ namespace DistributedAgentsSyncPlayground
     {
         static void Main(string[] args)
         {
+            var syncServer = new SyncServer.VectorClockSyncServer<string>();
+
+            syncServer.Start();
+
             ImAVectorClockConflictResolver<string> whateverConflictMediator = new GenericConflictMediator<string>((a, b) => b);
 
             var alice = new VectorClockNode<string>("Alice");
             var ben = new VectorClockNode<string>("Ben");
             var dave = new VectorClockNode<string>("Dave");
             var cathy = new VectorClockNode<string>("Cathy");
+
+            syncServer.Stop();
 
             VectorClockSyncResult<string> syncResult;
 
@@ -38,8 +44,6 @@ namespace DistributedAgentsSyncPlayground
             var resolution = whateverConflictMediator.ResolveConflict(syncResult);
 
             syncResult = dave.Acknowledge(resolution.Solution);
-
-
         }
     }
 }

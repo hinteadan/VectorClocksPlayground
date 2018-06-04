@@ -9,7 +9,7 @@
 
         long VersionOf(string nodeId);
 
-        VectorClockSyncResult<T> Acknowledge(VectorClockNode<T> vectorClock);
-        VectorClockNode<T> Say(T payload);
+        VectorClockSyncResult<T> Acknowledge(ImAVectorClockNode<T> vectorClock);
+        ImAVectorClockNode<T> Say(T payload);
     }
 }

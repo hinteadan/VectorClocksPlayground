@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DistributedAgentsSyncPlayground
 {
-    public class VectorClockNode<T> : ImAVectorClockNode<T>
+    public class VectorClockNode<T>
     {
         #region Construct
         private readonly Dictionary<string, VectorClockNodeVersion> revision;
@@ -70,7 +70,7 @@ namespace DistributedAgentsSyncPlayground
         private void TrackEvent() => selfVersion.Increment();
         private bool IsDescendantOf(VectorClockNode<T> otherVectorClock)
         {
-            return otherVectorClock.revision.All(a => this.revision[a.Key].Version >= a.Value.Version);
+            return otherVectorClock.Revision.All(a => this.revision[a.NodeID].Version >= a.Version);
         }
         private VectorClockNode<T> NormalizeVectors(VectorClockNode<T> vectorClock)
         {

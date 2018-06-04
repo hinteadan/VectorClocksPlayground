@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DistributedAgentsSyncPlayground
 {
-    public class VectorClockNode<T>
+    public class VectorClockNode<T> : ImAVectorClockNode<T>
     {
         #region Construct
         private readonly Dictionary<string, VectorClockNodeVersion> revision;

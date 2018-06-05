@@ -1,4 +1,6 @@
-﻿using DistributedAgentsSyncPlayground.ConflictMediators;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DistributedAgentsSyncPlayground
 {
@@ -6,44 +8,50 @@ namespace DistributedAgentsSyncPlayground
     {
         static void Main(string[] args)
         {
+            Random random = new Random();
+
             var syncServer = new SyncServer.VectorClockSyncServer<string>();
 
             syncServer.Start();
 
-            ImAVectorClockConflictResolver<string> whateverConflictMediator = new GenericConflictMediator<string>((a, b) => b);
+            VectorClockNode<string>[] nodes = new VectorClockNode<string>[]
+            {
+                new ConsoleVectorClockNode("Alice"),
+                new ConsoleVectorClockNode("Ben"),
+                new ConsoleVectorClockNode("Dave"),
+                new ConsoleVectorClockNode("Cathy"),
+            };
 
-            var alice = new VectorClockNode<string>("Alice");
-            var ben = new VectorClockNode<string>("Ben");
-            var dave = new VectorClockNode<string>("Dave");
-            var cathy = new VectorClockNode<string>("Cathy");
+            foreach (var node in nodes)
+            {
+                Task.Run(() =>
+                {
+                    var self = node;
+
+                    if (syncServer.TryRegisterNode(node))
+                        Console.WriteLine($"Registered node {node.NodeID} @ {DateTime.Now}");
+                    else
+                    {
+                        Console.WriteLine($"Error registering node {node.NodeID} @ {DateTime.Now}");
+                        return;
+                    }
+
+                    while (true)
+                    {
+                        Thread.Sleep(random.Next(1000, 3000));
+                        self.Say(Guid.NewGuid().ToString());
+                        syncServer.QueueEvent(self);
+                    }
+                });
+            }
+
+
+
+            Console.WriteLine($"Running @ {DateTime.Now}");
+            Console.WriteLine($"Press key to stop");
+            Console.ReadLine();
 
             syncServer.Stop();
-
-            VectorClockSyncResult<string> syncResult;
-
-            alice.Say("Wednesday");
-            syncResult = cathy.Acknowledge(alice);
-            syncResult = ben.Acknowledge(alice);
-            syncResult = dave.Acknowledge(alice);
-
-            ben.Say("Tuesday");
-            syncResult = alice.Acknowledge(ben);
-            syncResult = dave.Acknowledge(ben);
-
-            dave.Say("Tuesday");
-            alice.Acknowledge(dave);
-            ben.Acknowledge(dave);
-
-
-            //Conflict starts here
-
-            cathy.Say("Thursday");
-
-            syncResult = dave.Acknowledge(cathy);
-
-            var resolution = whateverConflictMediator.ResolveConflict(syncResult);
-
-            syncResult = dave.Acknowledge(resolution.Solution);
         }
     }
 }

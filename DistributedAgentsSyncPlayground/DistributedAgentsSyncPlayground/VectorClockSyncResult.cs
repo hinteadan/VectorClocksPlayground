@@ -40,5 +40,12 @@ namespace DistributedAgentsSyncPlayground
 
         public static VectorClockSyncResult<T> Conflictual(VectorClockNode<T> currentNode, VectorClockConflict<T> conflict)
             => new VectorClockSyncResult<T>(currentNode, null, conflict);
+
+        public override string ToString()
+        {
+            if (IsSuccessfull) return $"Sync OK, winner: {Solution}";
+
+            return $"Sync Conflict: {Conflict.NodeA} vs. {Conflict.NodeB}";
+        }
     }
 }

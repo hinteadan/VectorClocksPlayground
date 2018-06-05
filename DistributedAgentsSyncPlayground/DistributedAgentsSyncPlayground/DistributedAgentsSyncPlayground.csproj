@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConflictMediators\GenericConflictMediator.cs" />
+    <Compile Include="ConsoleVectorClockNode.cs" />
     <Compile Include="ImAVectorClockConflictResolver.cs" />
     <Compile Include="ImAVectorClockNode.cs" />
     <Compile Include="Program.cs" />

@@ -48,8 +48,8 @@ namespace DistributedAgentsSyncPlayground
             if (winner != null)
             {
                 Payload = winner.Payload;
-                
-                foreach(var version in Revision)
+
+                foreach (var version in Revision)
                 {
                     while (version.Version < winner.VersionOf(version.NodeID)) version.Increment();
                 }
@@ -79,6 +79,11 @@ namespace DistributedAgentsSyncPlayground
             foreach (var version in newNodesForSelf) this.revision.Add(version.NodeID, new VectorClockNodeVersion(version.NodeID, 0));
             foreach (var version in newNodesForOther) vectorClock.revision.Add(version.NodeID, new VectorClockNodeVersion(version.NodeID, 0));
             return vectorClock;
+        }
+
+        public override string ToString()
+        {
+            return $"{NodeID} ({string.Join(",", revision.Values.Select(v => v.Version))})";
         }
     }
 }

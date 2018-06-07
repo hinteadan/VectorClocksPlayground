@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedAgentsSyncPlaygr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H.VectorClocks", "H.VectorClocks\H.VectorClocks.csproj", "{C4FEBFAD-71A6-408E-961E-52902E2E33FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H.VectorClocks.Http", "H.VectorClocks.Http\H.VectorClocks.Http.csproj", "{5E35EF21-069F-4BB5-8918-50F657160D9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C4FEBFAD-71A6-408E-961E-52902E2E33FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4FEBFAD-71A6-408E-961E-52902E2E33FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4FEBFAD-71A6-408E-961E-52902E2E33FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E35EF21-069F-4BB5-8918-50F657160D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E35EF21-069F-4BB5-8918-50F657160D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E35EF21-069F-4BB5-8918-50F657160D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E35EF21-069F-4BB5-8918-50F657160D9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿namespace DistributedAgentsSyncPlayground
+﻿namespace H.VectorClocks
 {
     public class VectorClockConflict<T>
     {

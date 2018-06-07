@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3DEE95A1-28F1-4725-B5E3-21E39DC68428}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>DistributedAgentsSyncPlayground</RootNamespace>
-    <AssemblyName>DistributedAgentsSyncPlayground</AssemblyName>
+    <ProjectGuid>{C4FEBFAD-71A6-408E-961E-52902E2E33FE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>H.VectorClocks</RootNamespace>
+    <AssemblyName>H.VectorClocks</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,12 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nancy, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nancy.1.4.4\lib\net40\Nancy.dll</HintPath>
-    </Reference>
-    <Reference Include="Nancy.Hosting.Self, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nancy.Hosting.Self.1.4.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,21 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleVectorClockNode.cs" />
-    <Compile Include="Http\HttpVectorClockNode.cs" />
-    <Compile Include="Http\HttpVectorClockSyncServer.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ConflictMediators\GenericConflictMediator.cs" />
+    <Compile Include="ImAVectorClockConflictResolver.cs" />
+    <Compile Include="ImAVectorClockNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\H.VectorClocks\H.VectorClocks.csproj">
-      <Project>{c4febfad-71a6-408e-961e-52902e2e33fe}</Project>
-      <Name>H.VectorClocks</Name>
-    </ProjectReference>
+    <Compile Include="VectorClockConflict.cs" />
+    <Compile Include="VectorClockNode.cs" />
+    <Compile Include="VectorClockNodeVersion.cs" />
+    <Compile Include="VectorClockSyncResult.cs" />
+    <Compile Include="VectorClockSyncServer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DistributedAgentsSyncPlayground.SyncServer
+namespace H.VectorClocks
 {
     public class VectorClockSyncServer<T>
     {

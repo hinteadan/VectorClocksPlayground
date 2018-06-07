@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DistributedAgentsSyncPlayground
+namespace H.VectorClocks
 {
     public class VectorClockNode<T>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DistributedAgentsSyncPlayground.ConflictMediators
+namespace H.VectorClocks.ConflictMediators
 {
     public class GenericConflictMediator<T> : ImAVectorClockConflictResolver<T>
     {

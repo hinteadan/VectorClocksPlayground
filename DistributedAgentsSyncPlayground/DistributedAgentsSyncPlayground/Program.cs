@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H.VectorClocks;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace DistributedAgentsSyncPlayground
         {
             Random random = new Random();
 
-            var syncServer = new SyncServer.VectorClockSyncServer<string>();
+            var syncServer = new VectorClockSyncServer<string>();
 
             syncServer.Start();
 

@@ -1,4 +1,4 @@
-﻿using DistributedAgentsSyncPlayground.SyncServer;
+﻿using H.VectorClocks;
 
 namespace DistributedAgentsSyncPlayground.Http
 {

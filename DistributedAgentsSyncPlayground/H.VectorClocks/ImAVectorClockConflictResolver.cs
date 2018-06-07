@@ -1,4 +1,4 @@
-﻿namespace DistributedAgentsSyncPlayground
+﻿namespace H.VectorClocks
 {
     public interface ImAVectorClockConflictResolver<T>
     {

@@ -2,7 +2,7 @@
 
 namespace DistributedAgentsSyncPlayground
 {
-    internal class ConsoleVectorClockNode : VectorClockNode<string>
+    public class ConsoleVectorClockNode : VectorClockNode<string>
     {
         #region Construct
         public ConsoleVectorClockNode(string nodeId) : base(nodeId)

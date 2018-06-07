@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Nancy, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.1.4.4\lib\net40\Nancy.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Self, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Hosting.Self.1.4.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +50,8 @@
   <ItemGroup>
     <Compile Include="ConflictMediators\GenericConflictMediator.cs" />
     <Compile Include="ConsoleVectorClockNode.cs" />
+    <Compile Include="Http\HttpVectorClockNode.cs" />
+    <Compile Include="Http\HttpVectorClockSyncServer.cs" />
     <Compile Include="ImAVectorClockConflictResolver.cs" />
     <Compile Include="ImAVectorClockNode.cs" />
     <Compile Include="Program.cs" />
@@ -56,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

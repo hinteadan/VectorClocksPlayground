@@ -91,7 +91,7 @@ namespace H.VectorClocks
 
         private void TryToAknowledgeOthers(VectorClockNode<T> head)
         {
-            foreach (var node in nodeMesh.Where(x => x.Key != head.NodeID))
+            foreach (var node in nodeMesh)
             {
                 node.Value.Acknowledge(head);
             }

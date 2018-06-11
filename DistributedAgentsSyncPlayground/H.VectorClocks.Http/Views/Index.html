@@ -4,6 +4,14 @@
    Vector Clock Node
 @EndSection
 
+@Section['Scripts']
+<script src="@Path['~/Content/ClientApp.js']"></script>
+@EndSection
+
 @Section['Content']
    Vector Clock Node running on <strong>@Model.VectorClockNode.NodeID</strong>
+
+    <input id="inputMessage" />
+    <button id="buttonSendMessage">Send</button>
+
 @EndSection

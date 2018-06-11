@@ -5,8 +5,21 @@
     <meta charset="utf-8" />
     <title>@Section['Title'];</title>
     <script src="@Path['~/Content/jquery-3.3.1.min.js']"></script>
+    <script>
+        $.ajaxSetup({
+            contentType: 'application/json',
+            processData: false
+        });
+        $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+            if (options.data) {
+                options.data = JSON.stringify(options.data);
+            }
+        });
+    </script>
 </head>
 <body>
     @Section['Content'];
+
+    @Section['Scripts'];
 </body>
 </html>

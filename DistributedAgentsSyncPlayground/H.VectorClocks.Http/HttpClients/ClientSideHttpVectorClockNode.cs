@@ -20,6 +20,7 @@ namespace H.VectorClocks.Http.HttpClients
             this.url = new Uri(url);
             this.syncServerUrl = new Uri(syncServerUrl);
             this.iis = Process.Start($"H.VectorClocks.Http.exe", this.url.ToString());
+            AppState<T>.Current.VectorClockNode = this;
         }
         public ClientSideHttpVectorClockNode(string url, string syncServerUrl) 
             : this(url, syncServerUrl, default(T))
@@ -30,16 +31,13 @@ namespace H.VectorClocks.Http.HttpClients
         public override VectorClockNode<T> Say(T payload)
         {
             base.Say(payload);
-            AppState<T>.Current.VectorClockNode.Say(payload);
             NotifySyncServer();
             return this;
         }
 
         public override VectorClockSyncResult<T> Acknowledge(VectorClockNode<T> vectorClock)
         {
-            base.Acknowledge(vectorClock);
-
-            var result = AppState<T>.Current.VectorClockNode.Acknowledge(vectorClock);
+            var result = base.Acknowledge(vectorClock);
 
             return result;
         }

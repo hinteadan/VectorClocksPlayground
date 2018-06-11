@@ -16,6 +16,8 @@ namespace H.VectorClocks.Http.HttpModules
 
             Post["/register"] = x =>
             {
+                AppState<string>.Current.VectorClockSyncServer = AppState<string>.Current.VectorClockSyncServer ?? new VectorClockSyncServer<string>();
+
                 AppState<string>.Current.VectorClockSyncServer.Start();
 
                 VectorClockNode<string> sender = this.Bind<VectorClockNodeDto<string>>().ToModel();
@@ -29,6 +31,8 @@ namespace H.VectorClocks.Http.HttpModules
 
             Put["/"] = x =>
             {
+                AppState<string>.Current.VectorClockSyncServer = AppState<string>.Current.VectorClockSyncServer ?? new VectorClockSyncServer<string>();
+
                 VectorClockNode<string> sender = this.Bind<VectorClockNodeDto<string>>().ToModel();
 
                 AppState<string>.Current.VectorClockSyncServer.QueueEvent(sender);

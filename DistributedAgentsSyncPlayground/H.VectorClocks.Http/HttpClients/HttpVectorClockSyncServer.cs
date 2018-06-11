@@ -22,6 +22,7 @@ namespace H.VectorClocks.Http.HttpClients
         public override void Start()
         {
             this.iis = Process.Start($"H.VectorClocks.Http.exe", this.Url.ToString());
+            AppState<T>.Current.VectorClockSyncServer = this;
         }
 
         public override void Stop()

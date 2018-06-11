@@ -77,7 +77,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Content\ClientApp.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\jquery-3.3.1.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\SyncServerApp.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Index.html">

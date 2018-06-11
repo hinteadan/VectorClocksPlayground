@@ -1,4 +1,5 @@
 ﻿using H.VectorClocks.Http.DTO;
+using H.VectorClocks.Http.HttpClients;
 using Nancy;
 using Nancy.ModelBinding;
 using System;
@@ -14,12 +15,31 @@ namespace H.VectorClocks.Http.HttpModules
 
             Put["/ack"] = x =>
             {
+                AppState<string>.Current.VectorClockNode = AppState<string>.Current.VectorClockNode ?? new ServerSideVectorClockNode<string>(Request.Url.SiteBase, "http://localhost:60000");
+
                 VectorClockNode<string> sender = this.Bind<VectorClockNodeDto<string>>().ToModel();
 
                 AppState<string>.Current.LatestSync = AppState<string>.Current.VectorClockNode.Acknowledge(sender);
 
                 return HttpStatusCode.Accepted;
             };
+
+            Post["/say"] = x =>
+            {
+                AppState<string>.Current.VectorClockNode = AppState<string>.Current.VectorClockNode ?? new ServerSideVectorClockNode<string>(Request.Url.SiteBase, "http://localhost:60000");
+
+                Telegram telegram = this.Bind<Telegram>();
+
+                AppState<string>.Current.VectorClockNode.Say(telegram.Message);
+
+                return HttpStatusCode.OK;
+            };
         }
+    }
+
+    public class Telegram
+    {
+        public DateTime At { get; set; }
+        public string Message { get; set; }
     }
 }

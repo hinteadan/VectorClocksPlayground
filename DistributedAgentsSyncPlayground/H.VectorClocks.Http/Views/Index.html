@@ -1,11 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@Master['Master']
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Vector Clock Node</title>
-</head>
-<body>
-    Vector Clock Node running on <strong>@Model.VectorClockNode.NodeID</strong>
-</body>
-</html>
+@Section['Title']
+   Vector Clock Node
+@EndSection
+
+@Section['Content']
+   Vector Clock Node running on <strong>@Model.VectorClockNode.NodeID</strong>
+@EndSection

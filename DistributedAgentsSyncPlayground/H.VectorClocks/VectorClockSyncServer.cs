@@ -7,15 +7,32 @@ namespace H.VectorClocks
 {
     public class VectorClockSyncServer<T>
     {
-        protected readonly ImAVectorClockConflictResolver<T> conflictResolver = new ConflictMediators.GenericConflictMediator<T>((a, b) => b);
+        #region Construct
+        private bool isRunning = false;
         private readonly ConcurrentQueue<VectorClockNode<T>> syncRequestQueue = new ConcurrentQueue<VectorClockNode<T>>();
-        protected readonly ConcurrentDictionary<string, VectorClockNode<T>> nodeMesh = new ConcurrentDictionary<string, VectorClockNode<T>>();
-        private VectorClockNode<T> head = null;
+        private readonly ConcurrentDictionary<string, VectorClockNode<T>> nodeMesh = new ConcurrentDictionary<string, VectorClockNode<T>>();
         private readonly CancellationTokenSource chewTaskCancellation = new CancellationTokenSource();
+
+        public VectorClockNode<T> Head { get; private set; } = null;
+
+        private readonly ImAVectorClockConflictResolver<T> conflictResolver;
+
+        public VectorClockSyncServer(ImAVectorClockConflictResolver<T> conflictResolver)
+        {
+            this.conflictResolver = conflictResolver;
+        }
+
+        public VectorClockSyncServer()
+            : this(new ConflictMediators.GenericConflictMediator<T>((a, b) => b))
+        { }
+        #endregion
 
         public virtual void Start()
         {
+            if (isRunning) return;
+
             ChewRequestQueueAndTriggerAnotherChew();
+            isRunning = true;
         }
 
         public virtual void Stop()
@@ -37,14 +54,14 @@ namespace H.VectorClocks
         {
             VectorClockNode<T> queueHead;
             if (!syncRequestQueue.TryDequeue(out queueHead)) return;
-            head = head ?? queueHead;
+            Head = Head ?? queueHead;
 
-            VectorClockSyncResult<T> syncResult = head.Acknowledge(queueHead);
+            VectorClockSyncResult<T> syncResult = Head.Acknowledge(queueHead);
 
             if (syncResult.IsSuccessfull)
             {
-                head = syncResult.Solution;
-                TryToAknowledgeOthers(head);
+                Head = syncResult.Solution;
+                TryToAknowledgeOthers(Head);
                 return;
             }
 
@@ -52,13 +69,13 @@ namespace H.VectorClocks
 
             if (syncResult.IsSuccessfull)
             {
-                head = syncResult.Solution;
-                TryToAknowledgeOthers(head);
+                Head = syncResult.Solution;
+                TryToAknowledgeOthers(Head);
                 return;
             }
 
             //Delegate conflict to node
-            queueHead.Acknowledge(head);
+            queueHead.Acknowledge(Head);
         }
 
         private void ChewRequestQueueAndTriggerAnotherChew()
@@ -66,6 +83,7 @@ namespace H.VectorClocks
             if (chewTaskCancellation.IsCancellationRequested)
             {
                 chewTaskCancellation.Dispose();
+                isRunning = false;
                 return;
             }
             Task.Run(() => ChewRequestQueue(), chewTaskCancellation.Token).ContinueWith(x => ChewRequestQueueAndTriggerAnotherChew(), chewTaskCancellation.Token);

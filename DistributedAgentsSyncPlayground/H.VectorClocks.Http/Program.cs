@@ -17,6 +17,8 @@ namespace H.VectorClocks.Http
 
             string url = args[0];
 
+            AppState<string>.Current.VectorClockNode = new VectorClockNode<string>(url);
+            AppState<string>.Current.VectorClockSyncServer = new VectorClockSyncServer<string>();
 
             var host = new NancyHost(new Uri(url));
             host.Start();

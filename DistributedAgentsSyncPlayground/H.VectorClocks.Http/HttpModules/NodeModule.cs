@@ -7,6 +7,7 @@ namespace H.VectorClocks.Http.HttpModules
     {
         public NodeModule() : base("/")
         {
+            Get["/"] = _ => View["Index.html", AppState<string>.Current];
             Get["/ping"] = _ => Response.AsText($"Alive @ {DateTime.Now}");
         }
     }

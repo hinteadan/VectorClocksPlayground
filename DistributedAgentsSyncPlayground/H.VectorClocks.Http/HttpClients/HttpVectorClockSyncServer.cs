@@ -1,31 +1,49 @@
-﻿using System;
+﻿using H.VectorClocks.Http.DTO;
+using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Text;
 
 namespace H.VectorClocks.Http.HttpClients
 {
     public class HttpVectorClockSyncServer<T> : VectorClockSyncServer<T>
     {
         #region Construct
-        private readonly Uri url;
+        public readonly Uri Url;
         Process iis;
 
-        public HttpVectorClockSyncServer(string url ) : base()
+        public HttpVectorClockSyncServer(string url) : base()
         {
-            this.url = new Uri(url);
+            this.Url = new Uri(url);
         }
         #endregion
 
         public override void Start()
         {
-            base.Start();
-            this.iis = Process.Start($"H.VectorClocks.Http.exe", this.url.ToString());
+            this.iis = Process.Start($"H.VectorClocks.Http.exe", this.Url.ToString());
         }
 
         public override void Stop()
         {
-            base.Stop();
+            if (iis.HasExited) return;
             iis.CloseMainWindow();
             iis.Close();
+        }
+
+        public override bool TryRegisterNode(VectorClockNode<T> node)
+        {
+            using (var http = new HttpClient())
+            {
+                StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(node)), Encoding.Default, "application/json");
+                var response = http.PostAsync($"{Url}/register", json).Result;
+                return response.IsSuccessStatusCode;
+            }
+        }
+
+        public override void QueueEvent(VectorClockNode<T> eventSource)
+        {
+            AppState<T>.Current.VectorClockSyncServer.QueueEvent(eventSource);
         }
     }
 }

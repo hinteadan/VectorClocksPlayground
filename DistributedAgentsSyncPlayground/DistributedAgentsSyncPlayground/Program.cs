@@ -15,22 +15,20 @@ namespace DistributedAgentsSyncPlayground
 
             Console.WriteLine($"Spawning Sync Server @ {DateTime.Now}");
             syncServer.Start();
-            Process.Start("http://localhost:60000/sync/ping");
+            Process.Start($"http://localhost:60000/sync?zapCache={Guid.NewGuid()}");
             Console.WriteLine($"Spawned Sync Server @ {DateTime.Now}");
 
             Console.WriteLine($"Spawning Nodes @ {DateTime.Now}");
             HttpVectorClockNode<string>[] nodes = new HttpVectorClockNode<string>[]
             {
-                new HttpVectorClockNode<string>("http://localhost:60001"),
-                new HttpVectorClockNode<string>("http://localhost:60002"),
-                new HttpVectorClockNode<string>("http://localhost:60003"),
-                new HttpVectorClockNode<string>("http://localhost:60004"),
+                new HttpVectorClockNode<string>("http://localhost:60001", syncServer.Url.ToString()),
+                new HttpVectorClockNode<string>("http://localhost:60002", syncServer.Url.ToString()),
             };
             Console.WriteLine($"Spawned Nodes @ {DateTime.Now}");
 
             foreach (string addr in nodes.Select(n => n.NodeID))
             {
-                Process.Start($"{addr}/ping");
+                Process.Start($"{addr}?zapCache={Guid.NewGuid()}");
             }
 
             Console.WriteLine($"Started @ {DateTime.Now}");

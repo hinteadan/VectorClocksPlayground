@@ -6,35 +6,43 @@ using System.Text;
 
 namespace H.VectorClocks.Http.HttpClients
 {
-    public class SyncServerVectorClockNode<T> : VectorClockNode<T>
+    public class ServerSideVectorClockNode<T> : VectorClockNode<T>
     {
         #region Construct
-        protected readonly Uri url;
-        protected readonly Uri syncServerUrl;
-        public SyncServerVectorClockNode(string url, string syncServerUrl, T payload, params VectorClockNodeVersion[] revision)
+        private readonly Uri url;
+        private readonly Uri syncServerUrl;
+        public ServerSideVectorClockNode(string url, string syncServerUrl, T payload, params VectorClockNodeVersion[] revision)
             : base(url, payload, revision)
         {
             this.url = new Uri(url);
             this.syncServerUrl = new Uri(syncServerUrl);
         }
-        public SyncServerVectorClockNode(string url, string syncServerUrl) : this(url, syncServerUrl, default(T))
+        public ServerSideVectorClockNode(string url, string syncServerUrl) : this(url, syncServerUrl, default(T))
         {
         }
         #endregion
 
         public override VectorClockNode<T> Say(T payload)
         {
+            base.Say(payload);
             AppState<T>.Current.VectorClockNode.Say(payload);
-            NotifySyncServer();
             return this;
         }
 
-        private void NotifySyncServer()
+        public override VectorClockSyncResult<T> Acknowledge(VectorClockNode<T> vectorClock)
+        {
+            var result = base.Acknowledge(vectorClock);
+            result = AppState<T>.Current.VectorClockNode.Acknowledge(vectorClock);
+            NotifyRemoteNode();
+            return result;
+        }
+
+        private void NotifyRemoteNode()
         {
             using (var http = new HttpClient())
             {
                 StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(AppState<T>.Current.VectorClockNode)), Encoding.Default, "application/json");
-                http.PutAsync($"{syncServerUrl}/sync", json).Result.EnsureSuccessStatusCode();
+                http.PutAsync($"{syncServerUrl}/ack", json).Result.EnsureSuccessStatusCode();
             }
         }
     }

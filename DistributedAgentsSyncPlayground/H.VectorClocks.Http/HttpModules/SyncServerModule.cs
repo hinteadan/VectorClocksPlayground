@@ -20,7 +20,7 @@ namespace H.VectorClocks.Http.HttpModules
 
                 VectorClockNode<string> sender = this.Bind<VectorClockNodeDto<string>>().ToModel();
 
-                SyncServerVectorClockNode<string> node = new SyncServerVectorClockNode<string>(sender.NodeID, Request.Url.SiteBase, sender.Payload, sender.Revision);
+                ServerSideVectorClockNode<string> node = new ServerSideVectorClockNode<string>(sender.NodeID, Request.Url.SiteBase, sender.Payload, sender.Revision);
 
                 bool isSuccess = AppState<string>.Current.VectorClockSyncServer.TryRegisterNode(node);
 
@@ -33,7 +33,7 @@ namespace H.VectorClocks.Http.HttpModules
 
                 AppState<string>.Current.VectorClockSyncServer.QueueEvent(sender);
 
-                return HttpStatusCode.OK;
+                return HttpStatusCode.Accepted;
             };
         }
     }

@@ -19,10 +19,10 @@ namespace DistributedAgentsSyncPlayground
             Console.WriteLine($"Spawned Sync Server @ {DateTime.Now}");
 
             Console.WriteLine($"Spawning Nodes @ {DateTime.Now}");
-            HttpVectorClockNode<string>[] nodes = new HttpVectorClockNode<string>[]
+            ClientSideHttpVectorClockNode<string>[] nodes = new ClientSideHttpVectorClockNode<string>[]
             {
-                new HttpVectorClockNode<string>("http://localhost:60001", syncServer.Url.ToString()),
-                new HttpVectorClockNode<string>("http://localhost:60002", syncServer.Url.ToString()),
+                new ClientSideHttpVectorClockNode<string>("http://localhost:60001", syncServer.Url.ToString()),
+                new ClientSideHttpVectorClockNode<string>("http://localhost:60002", syncServer.Url.ToString()),
             };
             Console.WriteLine($"Spawned Nodes @ {DateTime.Now}");
 

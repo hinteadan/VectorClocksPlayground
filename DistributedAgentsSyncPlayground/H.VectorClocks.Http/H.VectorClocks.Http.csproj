@@ -57,9 +57,9 @@
     <Compile Include="DTO\VectorClockNodeDto.cs" />
     <Compile Include="DTO\VectorClockNodeVersionDto.cs" />
     <Compile Include="DTO\VectorClockSyncResultDto.cs" />
-    <Compile Include="HttpClients\HttpVectorClockNode.cs" />
+    <Compile Include="HttpClients\ClientSideHttpVectorClockNode.cs" />
     <Compile Include="HttpClients\HttpVectorClockSyncServer.cs" />
-    <Compile Include="HttpClients\SyncServerVectorClockNode.cs" />
+    <Compile Include="HttpClients\ServerSideVectorClockNode.cs" />
     <Compile Include="HttpModules\NodeModule.cs" />
     <Compile Include="HttpModules\SyncServerModule.cs" />
     <Compile Include="Program.cs" />

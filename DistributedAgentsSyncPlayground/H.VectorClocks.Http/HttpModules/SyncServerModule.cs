@@ -14,13 +14,6 @@ namespace H.VectorClocks.Http.HttpModules
 
             Get["/"] = _ => View["Index.html", AppState<string>.Current];
 
-            Post["/"] = x =>
-            {
-                VectorClockNodeDto<string> sender = this.Bind<VectorClockNodeDto<string>>();
-
-                return HttpStatusCode.OK;
-            };
-
             Post["/register"] = x =>
             {
                 AppState<string>.Current.VectorClockSyncServer.Start();
@@ -32,6 +25,15 @@ namespace H.VectorClocks.Http.HttpModules
                 bool isSuccess = AppState<string>.Current.VectorClockSyncServer.TryRegisterNode(node);
 
                 return isSuccess ? HttpStatusCode.OK : HttpStatusCode.BadRequest;
+            };
+
+            Put["/"] = x =>
+            {
+                VectorClockNode<string> sender = this.Bind<VectorClockNodeDto<string>>().ToModel();
+
+                AppState<string>.Current.VectorClockSyncServer.QueueEvent(sender);
+
+                return HttpStatusCode.OK;
             };
         }
     }

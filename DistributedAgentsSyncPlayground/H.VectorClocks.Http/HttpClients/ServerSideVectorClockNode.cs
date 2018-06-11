@@ -29,19 +29,12 @@ namespace H.VectorClocks.Http.HttpClients
             return this;
         }
 
-        public override VectorClockSyncResult<T> Acknowledge(VectorClockNode<T> vectorClock)
-        {
-            var result = AppState<T>.Current.VectorClockNode.Acknowledge(vectorClock);
-
-            return result;
-        }
-
         private void NotifySyncServer()
         {
             using (var http = new HttpClient())
             {
                 StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(AppState<T>.Current.VectorClockNode)), Encoding.Default, "application/json");
-                http.PostAsync(syncServerUrl, json).Wait();
+                http.PutAsync($"{syncServerUrl}/sync", json).Result.EnsureSuccessStatusCode();
             }
         }
     }

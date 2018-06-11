@@ -23,6 +23,15 @@ namespace H.VectorClocks.Http.HttpClients
         }
         #endregion
 
+        public override VectorClockSyncResult<T> Acknowledge(VectorClockNode<T> vectorClock)
+        {
+            base.Acknowledge(vectorClock);
+
+            var result = AppState<T>.Current.VectorClockNode.Acknowledge(vectorClock);
+
+            return result;
+        }
+
         public void Dispose()
         {
             if (iis.HasExited) return;

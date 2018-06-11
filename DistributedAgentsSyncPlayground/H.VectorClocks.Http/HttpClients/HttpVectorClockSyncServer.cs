@@ -4,7 +4,6 @@ using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
-using System.Threading;
 
 namespace H.VectorClocks.Http.HttpClients
 {

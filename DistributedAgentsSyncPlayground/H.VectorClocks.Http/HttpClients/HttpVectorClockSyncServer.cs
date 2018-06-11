@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 
 namespace H.VectorClocks.Http.HttpClients
 {
@@ -36,7 +37,7 @@ namespace H.VectorClocks.Http.HttpClients
             using (var http = new HttpClient())
             {
                 StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(node)), Encoding.Default, "application/json");
-                var response = http.PostAsync($"{Url}/register", json).Result;
+                var response = http.PostAsync($"{Url}sync/register", json).Result;
                 return response.IsSuccessStatusCode;
             }
         }

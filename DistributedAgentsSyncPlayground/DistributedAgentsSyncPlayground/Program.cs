@@ -31,6 +31,20 @@ namespace DistributedAgentsSyncPlayground
                 Process.Start($"{addr}?zapCache={Guid.NewGuid()}");
             }
 
+            Console.WriteLine($"Registering Nodes @ {DateTime.Now}");
+            foreach (var node in nodes)
+            {
+                if (!syncServer.TryRegisterNode(node))
+                {
+                    Console.WriteLine($"Error registering node {node.NodeID} @ {DateTime.Now}");
+                }
+                else
+                {
+                    Console.WriteLine($"Successfully registered node {node.NodeID} @ {DateTime.Now}");
+                }
+            }
+            Console.WriteLine($"Registered Nodes @ {DateTime.Now}");
+
             Console.WriteLine($"Started @ {DateTime.Now}");
             Console.WriteLine($"Press key to stop");
             Console.ReadLine();

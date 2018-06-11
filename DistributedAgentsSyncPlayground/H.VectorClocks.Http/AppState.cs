@@ -4,7 +4,8 @@
     {
         public VectorClockNode<T> VectorClockNode;
         public VectorClockSyncServer<T> VectorClockSyncServer;
-        public string SyncServerHead => VectorClockSyncServer?.Head?.ToString() ?? "[No Registered Nodes]";
+        public string SyncServerHead => VectorClockSyncServer?.Head?.ToString() ?? "[Zero Action]";
+        public string SyncServerMesh => VectorClockSyncServer?.ToString() ?? "[No Sync Server Running]";
 
         public static AppState<T> Current = new AppState<T>();
     }

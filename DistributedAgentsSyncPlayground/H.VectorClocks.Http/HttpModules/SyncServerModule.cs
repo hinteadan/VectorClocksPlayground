@@ -27,7 +27,7 @@ namespace H.VectorClocks.Http.HttpModules
 
                 VectorClockNode<string> sender = this.Bind<VectorClockNodeDto<string>>().ToModel();
 
-                HttpVectorClockNode<string> node = new HttpVectorClockNode<string>(sender.NodeID, Request.Url.BasePath, sender.Payload, sender.Revision);
+                SyncServerVectorClockNode<string> node = new SyncServerVectorClockNode<string>(sender.NodeID, Request.Url.SiteBase, sender.Payload, sender.Revision);
 
                 bool isSuccess = AppState<string>.Current.VectorClockSyncServer.TryRegisterNode(node);
 

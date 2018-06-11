@@ -96,5 +96,11 @@ namespace H.VectorClocks
                 node.Value.Acknowledge(head);
             }
         }
+
+        public override string ToString()
+        {
+            if (!nodeMesh.Any()) return "[Zero Nodes]";
+            return string.Join(" + ", nodeMesh.Select(x => x.Value.ToString()));
+        }
     }
 }

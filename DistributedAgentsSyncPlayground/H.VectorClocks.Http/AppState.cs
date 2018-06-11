@@ -8,6 +8,8 @@
         public string SyncServerHead => VectorClockSyncServer?.Head?.ToString() ?? "[Zero Action]";
         public string SyncServerMesh => VectorClockSyncServer?.ToString() ?? "[No Sync Server Running]";
 
+        public string LatestSyncResult => LatestSync?.ToString() ?? "[Never synced]";
+
         public static AppState<T> Current = new AppState<T>();
     }
 }

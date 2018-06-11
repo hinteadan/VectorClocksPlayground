@@ -16,7 +16,6 @@ namespace H.VectorClocks.Http.HttpClients
         {
             this.url = new Uri(url);
             this.syncServerUrl = new Uri(syncServerUrl);
-            AppState<T>.Current.VectorClockNode = this;
         }
         public ServerSideVectorClockNode(string url, string syncServerUrl) : this(url, syncServerUrl, default(T))
         {
@@ -42,7 +41,7 @@ namespace H.VectorClocks.Http.HttpClients
         {
             using (var http = new HttpClient())
             {
-                StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(AppState<T>.Current.VectorClockNode)), Encoding.Default, "application/json");
+                StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(this)), Encoding.Default, "application/json");
                 http.PutAsync($"{url}/ack", json).Result.EnsureSuccessStatusCode();
             }
         }
@@ -51,7 +50,7 @@ namespace H.VectorClocks.Http.HttpClients
         {
             using (var http = new HttpClient())
             {
-                StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(AppState<T>.Current.VectorClockNode)), Encoding.Default, "application/json");
+                StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(this)), Encoding.Default, "application/json");
                 http.PutAsync($"{syncServerUrl}/sync", json).Result.EnsureSuccessStatusCode();
             }
         }

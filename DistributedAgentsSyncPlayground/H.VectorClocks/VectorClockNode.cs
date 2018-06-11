@@ -31,8 +31,8 @@ namespace H.VectorClocks
 
         public T Payload { get; private set; }
         public string NodeID { get; }
-        public long Version => selfVersion.Version;
-        public long VersionOf(string nodeId) => !revision.ContainsKey(nodeId) ? 0 : revision[nodeId].Version;
+        public ulong Version => selfVersion.Version;
+        public ulong VersionOf(string nodeId) => !revision.ContainsKey(nodeId) ? 0 : revision[nodeId].Version;
         public VectorClockNodeVersion[] Revision => revision.Values.ToArray();
 
 

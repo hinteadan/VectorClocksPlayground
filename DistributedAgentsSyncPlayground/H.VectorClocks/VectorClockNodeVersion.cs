@@ -2,14 +2,14 @@
 {
     public class VectorClockNodeVersion
     {
-        public VectorClockNodeVersion(string nodeID, long version)
+        public VectorClockNodeVersion(string nodeID, ulong version)
         {
             this.NodeID = nodeID;
             this.Version = version;
         }
 
         public string NodeID { get; }
-        public long Version { get; private set; }
+        public ulong Version { get; private set; }
 
         public void Increment()
         {

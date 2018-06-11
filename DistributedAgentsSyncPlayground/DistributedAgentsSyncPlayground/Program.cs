@@ -1,7 +1,7 @@
-﻿using H.VectorClocks;
+﻿using H.VectorClocks.Http.HttpClients;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Linq;
 
 namespace DistributedAgentsSyncPlayground
 {
@@ -11,46 +11,36 @@ namespace DistributedAgentsSyncPlayground
         {
             Random random = new Random();
 
-            var syncServer = new VectorClockSyncServer<string>();
+            var syncServer = new HttpVectorClockSyncServer<string>("http://localhost:60000");
 
+            Console.WriteLine($"Spawning Sync Server @ {DateTime.Now}");
             syncServer.Start();
+            Process.Start("http://localhost:60000/sync/ping");
+            Console.WriteLine($"Spawned Sync Server @ {DateTime.Now}");
 
-            VectorClockNode<string>[] nodes = new VectorClockNode<string>[]
+            Console.WriteLine($"Spawning Nodes @ {DateTime.Now}");
+            HttpVectorClockNode<string>[] nodes = new HttpVectorClockNode<string>[]
             {
-                new ConsoleVectorClockNode("Alice"),
-                new ConsoleVectorClockNode("Ben"),
-                new ConsoleVectorClockNode("Dave"),
-                new ConsoleVectorClockNode("Cathy"),
+                new HttpVectorClockNode<string>("http://localhost:60001"),
+                new HttpVectorClockNode<string>("http://localhost:60002"),
+                new HttpVectorClockNode<string>("http://localhost:60003"),
+                new HttpVectorClockNode<string>("http://localhost:60004"),
             };
+            Console.WriteLine($"Spawned Nodes @ {DateTime.Now}");
+
+            foreach (string addr in nodes.Select(n => n.NodeID))
+            {
+                Process.Start($"{addr}/ping");
+            }
+
+            Console.WriteLine($"Started @ {DateTime.Now}");
+            Console.WriteLine($"Press key to stop");
+            Console.ReadLine();
 
             foreach (var node in nodes)
             {
-                Task.Run(() =>
-                {
-                    var self = node;
-
-                    if (syncServer.TryRegisterNode(node))
-                        Console.WriteLine($"Registered node {node.NodeID} @ {DateTime.Now}");
-                    else
-                    {
-                        Console.WriteLine($"Error registering node {node.NodeID} @ {DateTime.Now}");
-                        return;
-                    }
-
-                    while (true)
-                    {
-                        Thread.Sleep(random.Next(1000, 3000));
-                        self.Say(Guid.NewGuid().ToString());
-                        syncServer.QueueEvent(self);
-                    }
-                });
+                node.Dispose();
             }
-
-
-
-            Console.WriteLine($"Running @ {DateTime.Now}");
-            Console.WriteLine($"Press key to stop");
-            Console.ReadLine();
 
             syncServer.Stop();
         }

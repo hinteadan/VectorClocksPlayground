@@ -7,28 +7,28 @@ namespace H.VectorClocks
 {
     public class VectorClockSyncServer<T>
     {
-        private readonly ImAVectorClockConflictResolver<T> conflictResolver = new ConflictMediators.GenericConflictMediator<T>((a, b) => b);
+        protected readonly ImAVectorClockConflictResolver<T> conflictResolver = new ConflictMediators.GenericConflictMediator<T>((a, b) => b);
         private readonly ConcurrentQueue<VectorClockNode<T>> syncRequestQueue = new ConcurrentQueue<VectorClockNode<T>>();
-        private readonly ConcurrentDictionary<string, VectorClockNode<T>> nodeMesh = new ConcurrentDictionary<string, VectorClockNode<T>>();
+        protected readonly ConcurrentDictionary<string, VectorClockNode<T>> nodeMesh = new ConcurrentDictionary<string, VectorClockNode<T>>();
         private VectorClockNode<T> head = null;
         private readonly CancellationTokenSource chewTaskCancellation = new CancellationTokenSource();
 
-        public void Start()
+        public virtual void Start()
         {
             ChewRequestQueueAndTriggerAnotherChew();
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
             chewTaskCancellation.Cancel();
         }
 
-        public bool TryRegisterNode(VectorClockNode<T> node)
+        public virtual bool TryRegisterNode(VectorClockNode<T> node)
         {
             return nodeMesh.TryAdd(node.NodeID, node);
         }
 
-        public void QueueEvent(VectorClockNode<T> eventSource)
+        public virtual void QueueEvent(VectorClockNode<T> eventSource)
         {
             syncRequestQueue.Enqueue(eventSource);
         }

@@ -4,10 +4,10 @@
     {
         T Payload { get; }
         string NodeID { get; }
-        long Version { get; }
+        ulong Version { get; }
         VectorClockNodeVersion[] Revision { get; }
 
-        long VersionOf(string nodeId);
+        ulong VersionOf(string nodeId);
 
         VectorClockSyncResult<T> Acknowledge(ImAVectorClockNode<T> vectorClock);
         ImAVectorClockNode<T> Say(T payload);

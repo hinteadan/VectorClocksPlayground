@@ -42,7 +42,7 @@
 
     function refreshStatusAndQueueAnother() {
         refreshStatus();
-        setTimeout(refreshStatusAndQueueAnother, 100);
+        setTimeout(refreshStatusAndQueueAnother, 50);
     }
 
     refreshStatusAndQueueAnother();

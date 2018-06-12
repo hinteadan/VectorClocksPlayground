@@ -23,9 +23,6 @@ namespace DistributedAgentsSyncPlayground
             {
                 new ClientSideHttpVectorClockNode<string>("http://localhost:60001", syncServer.Url.ToString()),
                 new ClientSideHttpVectorClockNode<string>("http://localhost:60002", syncServer.Url.ToString()),
-                new ClientSideHttpVectorClockNode<string>("http://localhost:60003", syncServer.Url.ToString()),
-                new ClientSideHttpVectorClockNode<string>("http://localhost:60004", syncServer.Url.ToString()),
-                new ClientSideHttpVectorClockNode<string>("http://localhost:60005", syncServer.Url.ToString()),
             };
             Console.WriteLine($"Spawned Nodes @ {DateTime.Now}");
 

@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppState.cs" />
+    <Compile Include="DelegateToClientConflictResolver.cs" />
     <Compile Include="DTO\VectorClockConflictDto.cs" />
     <Compile Include="DTO\VectorClockNodeDto.cs" />
     <Compile Include="DTO\VectorClockNodeVersionDto.cs" />

@@ -23,7 +23,7 @@ namespace H.VectorClocks
         }
 
         public VectorClockSyncServer()
-            : this(new ConflictMediators.GenericConflictMediator<T>((a, b) => b))
+            : this(new ConflictMediators.SuperDumbConflictMediator<T>((a, b) => b))
         { }
         #endregion
 
@@ -75,7 +75,8 @@ namespace H.VectorClocks
             }
 
             //Delegate conflict to node
-            nodeMesh[queueHead.NodeID].Acknowledge(Head);
+            TryToAknowledgeOthers(Head);
+            //nodeMesh[queueHead.NodeID].Acknowledge(Head);
         }
 
         private void ChewRequestQueueAndTriggerAnotherChew()

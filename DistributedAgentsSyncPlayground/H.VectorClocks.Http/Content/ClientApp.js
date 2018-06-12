@@ -34,7 +34,7 @@
                     $log.html(`${data.solution.payload} [${revision}]`);
                 }
                 else {
-                    $log.html(`Conflict between: ${data.nodeA.payload}  |  ${data.nodeB.payload}`);
+                    $log.html(`Conflict between: ${data.conflict.nodeA.payload}  |  ${data.conflict.nodeB.payload}`);
                 }
             },
         });
@@ -42,7 +42,7 @@
 
     function refreshStatusAndQueueAnother() {
         refreshStatus();
-        setTimeout(refreshStatusAndQueueAnother, 50);
+        setTimeout(refreshStatusAndQueueAnother, 150);
     }
 
     refreshStatusAndQueueAnother();

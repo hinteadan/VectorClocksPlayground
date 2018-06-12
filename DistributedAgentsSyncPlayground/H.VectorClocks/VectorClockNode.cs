@@ -10,6 +10,8 @@ namespace H.VectorClocks
         private readonly Dictionary<string, VectorClockNodeVersion> revision;
         private readonly VectorClockNodeVersion selfVersion;
 
+        private VectorClockSyncResult<T> latestSyncResult;
+
         public VectorClockNode(string nodeId, T payload, params VectorClockNodeVersion[] revision)
         {
             NodeID = nodeId ?? Guid.NewGuid().ToString();
@@ -33,12 +35,14 @@ namespace H.VectorClocks
         public string NodeID { get; }
         public ulong Version => selfVersion.Version;
         public ulong VersionOf(string nodeId) => !revision.ContainsKey(nodeId) ? 0 : revision[nodeId].Version;
-        public VectorClockNodeVersion[] Revision => revision.Values.ToArray();
+        public VectorClockNodeVersion[] Revision => revision.Values.OrderBy(x => x.NodeID).ToArray();
 
 
         public virtual VectorClockSyncResult<T> Acknowledge(VectorClockNode<T> vectorClock)
         {
             vectorClock = NormalizeVectors(vectorClock);
+
+            //TODO: If node has unsolved conflicts, update conflict with latest vector clock
 
             VectorClockNode<T> winner =
                 this.IsDescendantOf(vectorClock) ? this :
@@ -54,10 +58,12 @@ namespace H.VectorClocks
                     while (version.Version < winner.VersionOf(version.NodeID)) version.Increment();
                 }
 
-                return VectorClockSyncResult<T>.Successfull(this, winner);
+                latestSyncResult = VectorClockSyncResult<T>.Successfull(this, winner);
             }
 
-            return VectorClockSyncResult<T>.Conflictual(this, new VectorClockConflict<T>(this, vectorClock));
+            latestSyncResult = VectorClockSyncResult<T>.Conflictual(this, new VectorClockConflict<T>(this, vectorClock));
+
+            return latestSyncResult;
         }
         public virtual VectorClockNode<T> Say(T payload)
         {
@@ -83,7 +89,7 @@ namespace H.VectorClocks
 
         public override string ToString()
         {
-            return $"{NodeID} ({string.Join(",", revision.Values.Select(v => v.Version))})";
+            return $"{NodeID} ({string.Join(",", revision.Values.OrderBy(x => x.NodeID).Select(v => v.Version))})";
         }
     }
 }

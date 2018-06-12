@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 
 namespace H.VectorClocks.Http.HttpClients
 {
@@ -51,6 +52,8 @@ namespace H.VectorClocks.Http.HttpClients
 
         private void NotifySyncServer()
         {
+            Thread.Sleep(3000);
+
             using (var http = new HttpClient())
             {
                 StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(AppState<T>.Current.VectorClockNode)), Encoding.Default, "application/json");

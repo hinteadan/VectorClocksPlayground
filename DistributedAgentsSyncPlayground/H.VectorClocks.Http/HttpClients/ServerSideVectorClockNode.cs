@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 
 namespace H.VectorClocks.Http.HttpClients
 {
@@ -39,6 +40,8 @@ namespace H.VectorClocks.Http.HttpClients
 
         private void NotifyRemoteNode()
         {
+            Thread.Sleep(3000);
+
             using (var http = new HttpClient())
             {
                 StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(this)), Encoding.Default, "application/json");
@@ -48,6 +51,8 @@ namespace H.VectorClocks.Http.HttpClients
 
         private void NotifySyncServer()
         {
+            Thread.Sleep(3000);
+
             using (var http = new HttpClient())
             {
                 StringContent json = new StringContent(JsonConvert.SerializeObject(VectorClockNodeDto<T>.FromModel(this)), Encoding.Default, "application/json");

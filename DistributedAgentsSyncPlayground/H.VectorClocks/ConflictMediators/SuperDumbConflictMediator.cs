@@ -2,11 +2,11 @@
 
 namespace H.VectorClocks.ConflictMediators
 {
-    public class GenericConflictMediator<T> : ImAVectorClockConflictResolver<T>
+    public class SuperDumbConflictMediator<T> : ImAVectorClockConflictResolver<T>
     {
         private readonly Func<T, T, T> mediator;
 
-        public GenericConflictMediator(Func<T, T, T> mediator)
+        public SuperDumbConflictMediator(Func<T, T, T> mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }

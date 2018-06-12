@@ -13,7 +13,7 @@ namespace H.VectorClocks.Http.HttpClients
         public readonly Uri Url;
         Process iis;
 
-        public HttpVectorClockSyncServer(string url) : base()
+        public HttpVectorClockSyncServer(string url) : base(new DelegateToClientConflictResolver<T>())
         {
             this.Url = new Uri(url);
         }

@@ -12,6 +12,7 @@ namespace H.VectorClocks.Http.HttpModules
         {
             Get["/"] = _ => View["Index.html", AppState<string>.Current];
             Get["/ping"] = _ => Response.AsText($"Alive @ {DateTime.Now}");
+            Get["/status"] = _ => Response.AsJson(AppState<string>.Current.LatestSync);
 
             Put["/ack"] = x =>
             {

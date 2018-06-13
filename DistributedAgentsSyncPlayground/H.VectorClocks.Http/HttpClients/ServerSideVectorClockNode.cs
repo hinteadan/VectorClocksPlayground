@@ -49,7 +49,7 @@ namespace H.VectorClocks.Http.HttpClients
             }
         }
 
-        private void NotifySyncServer()
+        public void NotifySyncServer()
         {
             Thread.Sleep(AppState<T>.DelayByMs);
 

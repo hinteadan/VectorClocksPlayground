@@ -35,6 +35,16 @@ namespace H.VectorClocks.Http.HttpModules
 
                 return HttpStatusCode.OK;
             };
+
+            Post["/resolveConflict"] = x =>
+            {
+                Telegram telegram = this.Bind<Telegram>();
+                AppState<string>.Current.LatestSync.ResolveConflict(telegram.Message);
+                AppState<string>.Current.LatestSync = AppState<string>.Current.VectorClockNode.Acknowledge(AppState<string>.Current.LatestSync.Solution);
+                (AppState<string>.Current.VectorClockNode as ServerSideVectorClockNode<string>).NotifySyncServer();
+
+                return HttpStatusCode.OK;
+            };
         }
     }
 

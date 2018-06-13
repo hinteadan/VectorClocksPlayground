@@ -3,6 +3,9 @@
     var $inputMessage = $('#inputMessage');
     var $buttonSendMessage = $('#buttonSendMessage');
     var $log = $('#log');
+    var $conflictEditor = $('#conflictEditor');
+    var $inputConflictResolveWith = $('#inputConflictResolveWith');
+    var $buttonConflictResolve = $('#buttonConflictResolve');
 
     $buttonSendMessage.click(function () {
         $.ajax({
@@ -13,9 +16,26 @@
         });
     });
 
+    $buttonConflictResolve.click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/resolveConflict',
+            contentType: "application/json",
+            data: { Message: $inputConflictResolveWith.val() },
+            success: function (data, textStatus, $xhr) {
+                $conflictEditor.hide();
+            },
+        });
+    });
+
     $inputMessage.keypress(function (e) {
         if (e.which !== 13) return;
         $buttonSendMessage.click();
+    });
+
+    $inputConflictResolveWith.keypress(function (e) {
+        if (e.which !== 13) return;
+        $buttonConflictResolve.click();
     });
 
 
@@ -35,6 +55,7 @@
                 }
                 else {
                     $log.html(`Conflict between: ${data.conflict.nodeA.payload}${printRevision(data.conflict.nodeA)}  |  ${data.conflict.nodeB.payload}${printRevision(data.conflict.nodeB)}`);
+                    $conflictEditor.show();
                 }
             },
         });

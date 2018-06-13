@@ -14,6 +14,9 @@
             url: '/say',
             contentType: "application/json",
             data: { Message: $inputMessage.val() },
+            success: function (data, textStatus, $xhr) {
+                $inputMessage.val('');
+            },
         });
     });
 
@@ -24,6 +27,7 @@
             contentType: "application/json",
             data: { Message: $inputConflictResolveWith.val() },
             success: function (data, textStatus, $xhr) {
+                $inputConflictResolveWith.val('');
                 $conflictEditor.hide();
                 $messageEditor.show();
             },

@@ -1,5 +1,6 @@
 ﻿(function ($) {
 
+    var $messageEditor = $('#messageEditor');
     var $inputMessage = $('#inputMessage');
     var $buttonSendMessage = $('#buttonSendMessage');
     var $log = $('#log');
@@ -24,6 +25,7 @@
             data: { Message: $inputConflictResolveWith.val() },
             success: function (data, textStatus, $xhr) {
                 $conflictEditor.hide();
+                $messageEditor.show();
             },
         });
     });
@@ -55,6 +57,7 @@
                 }
                 else {
                     $log.html(`Conflict between: ${data.conflict.nodeA.payload}${printRevision(data.conflict.nodeA)}  |  ${data.conflict.nodeB.payload}${printRevision(data.conflict.nodeB)}`);
+                    $messageEditor.hide();
                     $conflictEditor.show();
                 }
             },

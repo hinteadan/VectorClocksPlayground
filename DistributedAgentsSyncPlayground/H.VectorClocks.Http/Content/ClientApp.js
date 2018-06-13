@@ -34,10 +34,14 @@
                     $log.html(`${data.solution.payload} [${revision}]`);
                 }
                 else {
-                    $log.html(`Conflict between: ${data.conflict.nodeA.payload}  |  ${data.conflict.nodeB.payload}`);
+                    $log.html(`Conflict between: ${data.conflict.nodeA.payload}${printRevision(data.conflict.nodeA)}  |  ${data.conflict.nodeB.payload}${printRevision(data.conflict.nodeB)}`);
                 }
             },
         });
+    }
+
+    function printRevision(node) {
+        return `(${node.revision.map(x => x.version).join(',')})`;
     }
 
     function refreshStatusAndQueueAnother() {

@@ -40,7 +40,7 @@ namespace H.VectorClocks.Http.HttpClients
 
         private void NotifyRemoteNode()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(AppState<T>.DelayByMs);
 
             using (var http = new HttpClient())
             {
@@ -51,7 +51,7 @@ namespace H.VectorClocks.Http.HttpClients
 
         private void NotifySyncServer()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(AppState<T>.DelayByMs);
 
             using (var http = new HttpClient())
             {

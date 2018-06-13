@@ -75,8 +75,8 @@ namespace H.VectorClocks
             }
 
             //Delegate conflict to node
-            TryToAknowledgeOthers(Head);
-            //nodeMesh[queueHead.NodeID].Acknowledge(Head);
+            nodeMesh[queueHead.NodeID].Acknowledge(Head);
+            //TryToAknowledgeOthers(Head);
         }
 
         private void ChewRequestQueueAndTriggerAnotherChew()

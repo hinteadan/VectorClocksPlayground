@@ -2,6 +2,8 @@
 {
     internal class AppState<T>
     {
+        public const int DelayByMs = 1000;
+
         public VectorClockNode<T> VectorClockNode;
         public VectorClockSyncResult<T> LatestSync;
         public VectorClockSyncServer<T> VectorClockSyncServer;

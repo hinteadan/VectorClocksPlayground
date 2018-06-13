@@ -42,8 +42,6 @@ namespace H.VectorClocks
         {
             vectorClock = NormalizeVectors(vectorClock);
 
-            if (!latestSyncResult?.IsSuccessfull ?? false) goto UpdateConflict;
-
             VectorClockNode<T> winner =
                 this.IsDescendantOf(vectorClock) ? this :
                 vectorClock.IsDescendantOf(this) ? vectorClock :
@@ -61,9 +59,6 @@ namespace H.VectorClocks
                 latestSyncResult = VectorClockSyncResult<T>.Successfull(this, winner);
                 return latestSyncResult;
             }
-
-
-            UpdateConflict:
 
             latestSyncResult = VectorClockSyncResult<T>.Conflictual(this, new VectorClockConflict<T>(this, vectorClock));
 
